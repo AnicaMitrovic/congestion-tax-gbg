@@ -7,7 +7,8 @@ public class Calculator
     public static void PrintTotalAmount(string tollStationPasses)
     {
         var tollStationPassesDateTimes = tollStationPasses.Split(',')
-            .Select(p => DateTime.Parse(p.Trim()))
+            .Select(pass => DateTime.Parse(pass.Trim()))
+            .OrderBy(pass => pass)
             .ToList();
 
         var totalFee = GetTotalFee(tollStationPassesDateTimes);

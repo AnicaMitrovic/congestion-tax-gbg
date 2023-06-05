@@ -132,6 +132,19 @@ public class PrintTotalAmountTests
     }
 
     [TestMethod]
+    public void GivenMultiplePassesUnsortedUpTo60_PrintsSum()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 34 kr";
+
+        Calculator.PrintTotalAmount("2023-05-31 08:00, 2023-05-31 17:45, 2023-05-31 12:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
     public void GivenMultiplePassesOver60_Prints60()
     {
         StringWriter stringWriter = new();
@@ -139,6 +152,19 @@ public class PrintTotalAmountTests
         var expected = "The total fee is 60 kr";
 
         Calculator.PrintTotalAmount("2023-05-31 06:00, 2023-05-31 08:00, 2023-05-31 10:00, 2023-05-31 12:00, 2023-05-31 15:00, 2023-05-31 17:45");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesUnsortedOver60_Prints60()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 60 kr";
+
+        Calculator.PrintTotalAmount("2023-05-31 06:00, 2023-05-31 12:00, 2023-05-31 15:00, 2023-05-31 17:45, 2023-05-31 08:00, 2023-05-31 10:00");
         var actuall = stringWriter.ToString().Trim();
 
         Assert.AreEqual(expected, actuall);
@@ -200,6 +226,19 @@ public class PrintTotalAmountTests
     }
 
     [TestMethod]
+    public void GivenMultiplePassesUnsortedOnSaturday_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-06-03 05:00, 2023-06-03 06:00, 2023-06-03 16:00, 2023-06-03 07:00, 2023-06-03 12:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
     public void GivenMultiplePassesOnSunday_Prints0()
     {
         StringWriter stringWriter = new();
@@ -207,6 +246,19 @@ public class PrintTotalAmountTests
         var expected = "The total fee is 0 kr";
 
         Calculator.PrintTotalAmount("2023-06-04 05:00, 2023-06-04 06:00, 2023-06-04 07:00, 2023-06-04 12:00, 2023-06-04 16:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesUnsortedOnSunday_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-06-04 05:00, 2023-06-04 12:00, 2023-06-04 06:00, 2023-06-04 07:00, 2023-06-04 16:00");
         var actuall = stringWriter.ToString().Trim();
 
         Assert.AreEqual(expected, actuall);
@@ -226,6 +278,19 @@ public class PrintTotalAmountTests
     }
 
     [TestMethod]
+    public void GivenMultiplePassesUnsortedInJuly_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-07-04 05:00, 2023-07-04 06:00, 2023-07-04 16:00, 2023-07-04 07:00, 2023-07-04 12:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
     public void GivenMultiplePassesWithinOneHour_ReturnsTheHighestFee()
     {
         StringWriter stringWriter = new();
@@ -233,6 +298,19 @@ public class PrintTotalAmountTests
         var expected = "The total fee is 18 kr";
 
         Calculator.PrintTotalAmount("2023-05-31 06:20, 2023-05-31 06:45, 2023-05-31 07:10");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesUnsortedWithinOneHour_ReturnsTheHighestFee()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 18 kr";
+
+        Calculator.PrintTotalAmount("2023-05-31 06:45, 2023-05-31 06:20, 2023-05-31 07:10");
         var actuall = stringWriter.ToString().Trim();
 
         Assert.AreEqual(expected, actuall);
