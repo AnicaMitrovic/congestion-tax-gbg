@@ -14,14 +14,24 @@ public class Calculator
 
     public static void PrintTotalAmount(string tollStationPasses)
     {
-        var tollStationPassesDateTimes = tollStationPasses.Split(',')
-            .Select(pass => DateTime.Parse(pass.Trim()))
-            .OrderBy(pass => pass)
-            .ToList();
-
-        var totalFee = GetTotalFee(tollStationPassesDateTimes);
+        var passDateTimes = ParseDateTimes(tollStationPasses);
+        var sortedPassDateTimes = SortPassDateTimes(passDateTimes);
+        var totalFee = GetTotalFee(sortedPassDateTimes);
 
         Console.WriteLine($"The total fee is {totalFee} kr");
+    }
+
+    private static List<DateTime> ParseDateTimes(string dates)
+    {
+        return dates
+            .Split(',')
+            .Select(pass => DateTime.Parse(pass.Trim()))
+            .ToList();
+    }
+
+    private static List<DateTime> SortPassDateTimes(List<DateTime> dates)
+    {
+        return dates.OrderBy(pass => pass).ToList();
     }
 
     private static int GetTotalFee(List<DateTime> passes)
