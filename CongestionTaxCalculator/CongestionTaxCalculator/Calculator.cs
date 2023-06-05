@@ -74,20 +74,20 @@ public class Calculator
         return groups;
     }
 
-    private static int GetPassFee(DateTime dateTime)
+    private static int GetPassFee(DateTime pass)
     {
-        if (IsPeriodFreeOfCharge(dateTime)) return 0;
+        if (IsPeriodFreeOfCharge(pass)) return 0;
 
-        return dateTime.Hour switch
+        return pass.Hour switch
         {
-            6 => dateTime.Minute <= 29 ? 8 : 13,
+            6 => pass.Minute <= 29 ? 8 : 13,
             7 => 18,
-            8 => dateTime.Minute <= 29 ? 13 : 8,
+            8 => pass.Minute <= 29 ? 13 : 8,
             9 or 10 or 11 or 12 or 13 or 14 => 8,
-            15 => dateTime.Minute <= 29 ? 13 : 18,
+            15 => pass.Minute <= 29 ? 13 : 18,
             16 => 18,
             17 => 13,
-            18 => dateTime.Minute <= 29 ? 8 : 0,
+            18 => pass.Minute <= 29 ? 8 : 0,
             _ => 0,
         };
     }
