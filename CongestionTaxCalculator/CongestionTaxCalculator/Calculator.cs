@@ -52,19 +52,21 @@ public class Calculator
 
         for (int i = 1; i < passes.Count; i++)
         {
-            var timeDiff = passes[i] - previousPass;
+            var pass = passes[i];
+
+            var timeDiff = pass - previousPass;
 
             if (timeDiff.TotalMinutes <= 60)
             {
-                currentGroup.Add(passes[i]);
+                currentGroup.Add(pass);
             }
             else
             {
                 groups.Add(currentGroup);
-                currentGroup = new List<DateTime> { passes[i] };
+                currentGroup = new List<DateTime> { pass };
             }
 
-            previousPass = passes[i];
+            previousPass = pass;
         }
 
         groups.Add(currentGroup);
