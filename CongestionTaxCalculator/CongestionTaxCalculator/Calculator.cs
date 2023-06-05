@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Xml.Linq;
 
 namespace CongestionTaxCalculator;
 
@@ -6,13 +7,36 @@ public class Calculator
 {
     public static void PrintTotalAmount(string tollStationPasses)
     {
-        var dateTime = DateTime.Parse(tollStationPasses);
-        var totalFee = GetPassFee(dateTime);        
+        var tollStationPassesDateTimes = ParseInputData(tollStationPasses);
+
+        var totalFee = GetTotalFee(tollStationPassesDateTimes);
 
         Console.WriteLine($"The total fee is {totalFee} kr");
     }
 
-    private static object GetPassFee(DateTime dateTime)
+    private static DateTime[] ParseInputData(string tollStationPasses)
+    {
+        string[] passes = tollStationPasses.Split(", ");
+        DateTime[] tollStationPassesDateTimes = new DateTime[passes.Length];
+        for (int i = 0; i < tollStationPassesDateTimes.Length; i++)
+        {
+            tollStationPassesDateTimes[i] = DateTime.Parse(passes[i]);
+        }
+
+        return tollStationPassesDateTimes;
+    }
+
+    private static int GetTotalFee(DateTime[] tollStationPassesDateTimes)
+    {
+        var totalFee = 0;
+        foreach (var tollStationPass in tollStationPassesDateTimes)
+        {
+            totalFee += GetPassFee(tollStationPass);
+        }
+        return totalFee;
+    }
+
+    private static int GetPassFee(DateTime dateTime)
     {
         switch (dateTime.Hour)
         {
