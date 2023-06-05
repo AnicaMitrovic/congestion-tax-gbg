@@ -45,7 +45,7 @@ public class Calculator
 
         foreach (var pass in passes)
         {
-            var fee = GetPassFee(pass);
+            var fee = (int)GetPassFee(pass);
             highestFee = Math.Max(highestFee, fee);
         }
 
@@ -82,21 +82,21 @@ public class Calculator
         return groups;
     }
 
-    private static int GetPassFee(DateTime pass)
+    private static Fee GetPassFee(DateTime pass)
     {
-        if (IsPeriodFreeOfCharge(pass)) return (int)Fee.Free;
+        if (IsPeriodFreeOfCharge(pass)) return Fee.Free;
 
         return pass.Hour switch
         {
-            6 => pass.Minute <= 29 ? (int)Fee.Low : (int)Fee.Medium,
-            7 => (int)Fee.High,
-            8 => pass.Minute <= 29 ? (int)Fee.Medium : (int)Fee.Low,
-            9 or 10 or 11 or 12 or 13 or 14 => (int)Fee.Low,
-            15 => pass.Minute <= 29 ? (int)Fee.Medium : (int)Fee.High,
-            16 => (int)Fee.High,
-            17 => (int)Fee.Medium,
-            18 => pass.Minute <= 29 ? (int)Fee.Low : (int)Fee.Free,
-            _ => (int)Fee.Free,
+            6 => pass.Minute <= 29 ? Fee.Low : Fee.Medium,
+            7 => Fee.High,
+            8 => pass.Minute <= 29 ? Fee.Medium : Fee.Low,
+            9 or 10 or 11 or 12 or 13 or 14 => Fee.Low,
+            15 => pass.Minute <= 29 ? Fee.Medium : Fee.High,
+            16 => Fee.High,
+            17 => Fee.Medium,
+            18 => pass.Minute <= 29 ? Fee.Low : Fee.Free,
+            _ => Fee.Free,
         };
     }
 
