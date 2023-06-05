@@ -36,11 +36,17 @@ namespace CalculatorTests
         };
 
         public static IEnumerable<object[]> SinglePassIntervalFree => new[]
-{
+        {
             new object[] { "2023-05-31 18:30" },
             new object[] { "2023-05-31 05:59" },
         };
 
+        public static IEnumerable<object[]> SinglePassSaturday => new[]
+        {
+            new object[] { "2023-06-03 05:00" },
+            new object[] { "2023-05-06 12:00" },
+            new object[] { "2023-07-01 17:00" },
+        };
 
         [TestMethod]
         [DynamicData(nameof(SinglePassInterval8))]
@@ -119,6 +125,20 @@ namespace CalculatorTests
             var expected = "The total fee is 60 kr";
 
             Calculator.PrintTotalAmount("2023-05-31 06:00, 2023-05-31 08:00, 2023-05-31 10:00, 2023-05-31 12:00, 2023-05-31 15:00, 2023-05-31 17:45");
+            var actuall = stringWriter.ToString().Trim();
+
+            Assert.AreEqual(expected, actuall);
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(SinglePassSaturday))]
+        public void GivenSinglePassOnSaturday_Prints0(string pass)
+        {
+            StringWriter stringWriter = new();
+            Console.SetOut(stringWriter);
+            var expected = "The total fee is 0 kr";
+
+            Calculator.PrintTotalAmount(pass);
             var actuall = stringWriter.ToString().Trim();
 
             Assert.AreEqual(expected, actuall);
