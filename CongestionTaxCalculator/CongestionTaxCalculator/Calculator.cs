@@ -47,31 +47,17 @@ public class Calculator
             return 0;
         }
 
-        switch (dateTime.Hour)
+        return dateTime.Hour switch
         {
-            case 6:
-                return dateTime.Minute <= 29 ? 8 : 13;
-            case 7:
-                return 18;
-            case 8:
-                return dateTime.Minute <= 29 ? 13 : 8;
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-                return 8;
-            case 15:
-                return dateTime.Minute <= 29 ? 13 : 18;
-            case 16:
-                return 18;
-            case 17:
-                return 13;
-            case 18:
-                return dateTime.Minute <= 29 ? 8 : 0;
-            default:
-                return 0;
-        }
+            6 => dateTime.Minute <= 29 ? 8 : 13,
+            7 => 18,
+            8 => dateTime.Minute <= 29 ? 13 : 8,
+            9 or 10 or 11 or 12 or 13 or 14 => 8,
+            15 => dateTime.Minute <= 29 ? 13 : 18,
+            16 => 18,
+            17 => 13,
+            18 => dateTime.Minute <= 29 ? 8 : 0,
+            _ => 0,
+        };
     }
 }
