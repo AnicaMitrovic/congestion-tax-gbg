@@ -1,5 +1,13 @@
 ﻿namespace CongestionTaxCalculator;
 
+public enum Fee
+{
+    Low = 8,
+    Medium = 13,
+    High = 18,
+    Free = 0
+}
+
 public class Calculator
 {
     public static readonly int MAX_DAILY_CHARGE = 60;
@@ -76,19 +84,19 @@ public class Calculator
 
     private static int GetPassFee(DateTime pass)
     {
-        if (IsPeriodFreeOfCharge(pass)) return 0;
+        if (IsPeriodFreeOfCharge(pass)) return (int)Fee.Free;
 
         return pass.Hour switch
         {
-            6 => pass.Minute <= 29 ? 8 : 13,
-            7 => 18,
-            8 => pass.Minute <= 29 ? 13 : 8,
-            9 or 10 or 11 or 12 or 13 or 14 => 8,
-            15 => pass.Minute <= 29 ? 13 : 18,
-            16 => 18,
-            17 => 13,
-            18 => pass.Minute <= 29 ? 8 : 0,
-            _ => 0,
+            6 => pass.Minute <= 29 ? (int)Fee.Low : (int)Fee.Medium,
+            7 => (int)Fee.High,
+            8 => pass.Minute <= 29 ? (int)Fee.Medium : (int)Fee.Low,
+            9 or 10 or 11 or 12 or 13 or 14 => (int)Fee.Low,
+            15 => pass.Minute <= 29 ? (int)Fee.Medium : (int)Fee.High,
+            16 => (int)Fee.High,
+            17 => (int)Fee.Medium,
+            18 => pass.Minute <= 29 ? (int)Fee.Low : (int)Fee.Free,
+            _ => (int)Fee.Free,
         };
     }
 
