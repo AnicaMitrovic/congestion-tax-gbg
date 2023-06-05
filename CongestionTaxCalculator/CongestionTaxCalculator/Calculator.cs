@@ -86,18 +86,24 @@ public class Calculator
     {
         if (IsPeriodFreeOfCharge(pass)) return Fee.Free;
 
-        return pass.Hour switch
+        Dictionary<int, Fee> feeByPassTime = new()
         {
-            6 => pass.Minute <= 29 ? Fee.Low : Fee.Medium,
-            7 => Fee.High,
-            8 => pass.Minute <= 29 ? Fee.Medium : Fee.Low,
-            9 or 10 or 11 or 12 or 13 or 14 => Fee.Low,
-            15 => pass.Minute <= 29 ? Fee.Medium : Fee.High,
-            16 => Fee.High,
-            17 => Fee.Medium,
-            18 => pass.Minute <= 29 ? Fee.Low : Fee.Free,
-            _ => Fee.Free,
+            { 6, pass.Minute <= 29 ? Fee.Low : Fee.Medium },
+            { 7, Fee.High },
+            { 8, pass.Minute <= 29 ? Fee.Medium : Fee.Low },
+            { 9, Fee.Low },
+            { 10, Fee.Low },
+            { 11, Fee.Low },
+            { 12, Fee.Low },
+            { 13, Fee.Low },
+            { 14, Fee.Low },
+            { 15, pass.Minute <= 29 ? Fee.Medium : Fee.High },
+            { 16, Fee.High },
+            { 17, Fee.Medium },
+            { 18, pass.Minute <= 29 ? Fee.Low : Fee.Free }
         };
+
+        return feeByPassTime[pass.Hour];
     }
 
     private static bool IsPeriodFreeOfCharge(DateTime dateTime) =>
