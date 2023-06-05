@@ -15,12 +15,13 @@ public class Calculator
         Console.WriteLine($"The total fee is {totalFee} kr");
     }
 
-    private static int GetTotalFee(List<DateTime> tollStationPassesDateTimes)
+    private static int GetTotalFee(List<DateTime> passes)
     {
         var totalFee = 0;
-        foreach (var tollStationPass in tollStationPassesDateTimes)
+
+        foreach (var pass in passes)
         {
-            totalFee += GetPassFee(tollStationPass);
+            totalFee += GetPassFee(pass);
         }
 
         return Math.Min(totalFee, MAX_DAILY_CHARGE);
