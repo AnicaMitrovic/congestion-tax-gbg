@@ -41,12 +41,7 @@ public class Calculator
 
     private static int GetPassFee(DateTime dateTime)
     {
-        if (dateTime.DayOfWeek == DayOfWeek.Saturday || 
-            dateTime.DayOfWeek == DayOfWeek.Sunday ||
-            dateTime.Month == 7)
-        {
-            return 0;
-        }
+        if (IsPeriodFreeOfCharge(dateTime)) return 0;
 
         return dateTime.Hour switch
         {
@@ -61,4 +56,9 @@ public class Calculator
             _ => 0,
         };
     }
+
+    private static bool IsPeriodFreeOfCharge(DateTime dateTime) =>
+        dateTime.DayOfWeek == DayOfWeek.Saturday ||
+        dateTime.DayOfWeek == DayOfWeek.Sunday ||
+        dateTime.Month == 7;
 }
