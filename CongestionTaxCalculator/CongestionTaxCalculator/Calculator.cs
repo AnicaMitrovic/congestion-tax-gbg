@@ -103,7 +103,7 @@ public class Calculator
             { 18, pass.Minute <= 29 ? Fee.Low : Fee.Free }
         };
 
-        return feeByPassTime[pass.Hour];
+        return feeByPassTime.ContainsKey(pass.Hour) ? feeByPassTime[pass.Hour] : Fee.Free;
     }
 
     private static bool IsPeriodFreeOfCharge(DateTime dateTime) =>
