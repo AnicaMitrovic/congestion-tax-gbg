@@ -49,14 +49,14 @@ public class PrintTotalAmountTests
     };
 
     public static IEnumerable<object[]> SinglePassSunday => new[]
-{
+    {
         new object[] { "2023-06-04 05:00" },
         new object[] { "2023-05-07 12:00" },
         new object[] { "2023-07-02 17:00" },
     };
 
     public static IEnumerable<object[]> SinglePassJuly => new[]
-{
+    {
         new object[] { "2023-07-01 05:00" },
         new object[] { "2023-07-31 17:00" },
         new object[] { "2022-07-01 12:00" },
@@ -181,6 +181,45 @@ public class PrintTotalAmountTests
         var expected = "The total fee is 0 kr";
 
         Calculator.PrintTotalAmount(pass);
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesOnSaturday_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-06-03 05:00, 2023-06-03 06:00, 2023-06-03 07:00, 2023-06-03 12:00, 2023-06-03 16:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesOnSunday_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-06-04 05:00, 2023-06-04 06:00, 2023-06-04 07:00, 2023-06-04 12:00, 2023-06-04 16:00");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
+
+    [TestMethod]
+    public void GivenMultiplePassesInJuly_Prints0()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 0 kr";
+
+        Calculator.PrintTotalAmount("2023-07-04 05:00, 2023-07-04 06:00, 2023-07-04 07:00, 2023-07-04 12:00, 2023-07-04 16:00");
         var actuall = stringWriter.ToString().Trim();
 
         Assert.AreEqual(expected, actuall);
