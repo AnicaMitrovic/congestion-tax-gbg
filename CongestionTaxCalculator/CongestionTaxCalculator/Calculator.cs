@@ -6,26 +6,16 @@ public class Calculator
 
     public static void PrintTotalAmount(string tollStationPasses)
     {
-        var tollStationPassesDateTimes = ParseInputData(tollStationPasses);
+        var tollStationPassesDateTimes = tollStationPasses.Split(',')
+            .Select(p => DateTime.Parse(p.Trim()))
+            .ToList();
 
         var totalFee = GetTotalFee(tollStationPassesDateTimes);
 
         Console.WriteLine($"The total fee is {totalFee} kr");
     }
 
-    private static DateTime[] ParseInputData(string tollStationPasses)
-    {
-        string[] passes = tollStationPasses.Split(", ");
-        DateTime[] tollStationPassesDateTimes = new DateTime[passes.Length];
-        for (int i = 0; i < tollStationPassesDateTimes.Length; i++)
-        {
-            tollStationPassesDateTimes[i] = DateTime.Parse(passes[i]);
-        }
-
-        return tollStationPassesDateTimes;
-    }
-
-    private static int GetTotalFee(DateTime[] tollStationPassesDateTimes)
+    private static int GetTotalFee(List<DateTime> tollStationPassesDateTimes)
     {
         var totalFee = 0;
         foreach (var tollStationPass in tollStationPassesDateTimes)
