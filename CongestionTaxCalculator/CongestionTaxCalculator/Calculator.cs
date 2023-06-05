@@ -5,6 +5,8 @@ namespace CongestionTaxCalculator;
 
 public class Calculator
 {
+    public static readonly int MAX_DAILY_CHARGE = 60;
+
     public static void PrintTotalAmount(string tollStationPasses)
     {
         var tollStationPassesDateTimes = ParseInputData(tollStationPasses);
@@ -33,7 +35,7 @@ public class Calculator
         {
             totalFee += GetPassFee(tollStationPass);
         }
-        return totalFee;
+        return totalFee > MAX_DAILY_CHARGE ? MAX_DAILY_CHARGE : totalFee;
     }
 
     private static int GetPassFee(DateTime dateTime)

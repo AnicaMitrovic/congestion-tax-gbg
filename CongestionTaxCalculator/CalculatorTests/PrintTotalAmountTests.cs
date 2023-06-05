@@ -99,13 +99,26 @@ namespace CalculatorTests
         }
 
         [TestMethod]
-        public void GivenMultiplePasses_PrintsSum()
+        public void GivenMultiplePassesUpTo60_PrintsSum()
         {
             StringWriter stringWriter = new();
             Console.SetOut(stringWriter);
             var expected = "The total fee is 34 kr";
 
             Calculator.PrintTotalAmount("2023-05-31 08:00, 2023-05-31 12:00, 2023-05-31 17:45");
+            var actuall = stringWriter.ToString().Trim();
+
+            Assert.AreEqual(expected, actuall);
+        }
+
+        [TestMethod]
+        public void GivenMultiplePassesOver60_Prints60()
+        {
+            StringWriter stringWriter = new();
+            Console.SetOut(stringWriter);
+            var expected = "The total fee is 60 kr";
+
+            Calculator.PrintTotalAmount("2023-05-31 06:00, 2023-05-31 08:00, 2023-05-31 10:00, 2023-05-31 12:00, 2023-05-31 15:00, 2023-05-31 17:45");
             var actuall = stringWriter.ToString().Trim();
 
             Assert.AreEqual(expected, actuall);
