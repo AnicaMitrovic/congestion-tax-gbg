@@ -35,7 +35,8 @@ public class Calculator
         {
             totalFee += GetPassFee(tollStationPass);
         }
-        return totalFee > MAX_DAILY_CHARGE ? MAX_DAILY_CHARGE : totalFee;
+
+        return Math.Min(totalFee, MAX_DAILY_CHARGE);
     }
 
     private static int GetPassFee(DateTime dateTime)
