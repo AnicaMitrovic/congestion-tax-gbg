@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Xml.Linq;
-
-namespace CongestionTaxCalculator;
+﻿namespace CongestionTaxCalculator;
 
 public class Calculator
 {
