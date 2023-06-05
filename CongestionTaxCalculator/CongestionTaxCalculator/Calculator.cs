@@ -16,7 +16,7 @@ public class Calculator
     {
         var passDateTimes = ParseDateTimes(tollStationPasses);
         var sortedPassDateTimes = SortPassDateTimes(passDateTimes);
-        var totalFee = GetTotalFee(sortedPassDateTimes);
+        var totalFee = CalculateTotalFee(sortedPassDateTimes);
 
         Console.WriteLine($"The total fee is {totalFee} kr");
     }
@@ -34,7 +34,7 @@ public class Calculator
         return dates.OrderBy(pass => pass).ToList();
     }
 
-    private static int GetTotalFee(List<DateTime> passes)
+    private static int CalculateTotalFee(List<DateTime> passes)
     {
         var totalFee = 0;
 
@@ -65,29 +65,25 @@ public class Calculator
     private static List<List<DateTime>> GroupPassesPerHour(List<DateTime> passes)
     {
         var groups = new List<List<DateTime>>();
-        var currentGroup = new List<DateTime> { passes[0] };
-        var previousPass = passes[0];
+        var currentGroup = new List<DateTime>();
+        DateTime previousPass = default;
 
-        for (int i = 1; i < passes.Count; i++)
+        foreach (var pass in passes)
         {
-            var pass = passes[i];
-
-            var timeDiff = pass - previousPass;
-
-            if (timeDiff.TotalMinutes <= 60)
-            {
-                currentGroup.Add(pass);
-            }
-            else
+            if (previousPass != default && (pass - previousPass).TotalMinutes > 60)
             {
                 groups.Add(currentGroup);
-                currentGroup = new List<DateTime> { pass };
+                currentGroup = new List<DateTime>();
             }
 
+            currentGroup.Add(pass);
             previousPass = pass;
         }
 
-        groups.Add(currentGroup);
+        if (currentGroup.Count > 0)
+        {
+            groups.Add(currentGroup);
+        }
 
         return groups;
     }
