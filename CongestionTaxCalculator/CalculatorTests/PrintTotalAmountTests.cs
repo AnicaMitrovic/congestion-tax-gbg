@@ -224,4 +224,17 @@ public class PrintTotalAmountTests
 
         Assert.AreEqual(expected, actuall);
     }
+
+    [TestMethod]
+    public void GivenMultiplePassesWithinOneHour_ReturnsTheHighestFee()
+    {
+        StringWriter stringWriter = new();
+        Console.SetOut(stringWriter);
+        var expected = "The total fee is 18 kr";
+
+        Calculator.PrintTotalAmount("2023-05-31 06:20, 2023-05-31 06:45, 2023-05-31 07:10");
+        var actuall = stringWriter.ToString().Trim();
+
+        Assert.AreEqual(expected, actuall);
+    }
 }

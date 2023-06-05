@@ -19,12 +19,56 @@ public class Calculator
     {
         var totalFee = 0;
 
-        foreach (var pass in passes)
+        var hourlyPassGroups = GroupPassesPerHour(passes);
+
+        foreach (var hourlyPassGroup in hourlyPassGroups)
         {
-            totalFee += GetPassFee(pass);
+            var highestHourlyFee = GetHighestFeePerHour(hourlyPassGroup);
+            totalFee += highestHourlyFee;
         }
 
         return Math.Min(totalFee, MAX_DAILY_CHARGE);
+    }
+
+    private static int GetHighestFeePerHour(List<DateTime> passes)
+    {
+        var highestFee = 0;
+
+        foreach (var pass in passes)
+        {
+            var fee = GetPassFee(pass);
+            highestFee = Math.Max(highestFee, fee);
+        }
+
+        return highestFee;
+    }
+
+    private static List<List<DateTime>> GroupPassesPerHour(List<DateTime> passes)
+    {
+        var groups = new List<List<DateTime>>();
+        var currentGroup = new List<DateTime> { passes[0] };
+        var previousPass = passes[0];
+
+        for (int i = 1; i < passes.Count; i++)
+        {
+            var timeDiff = passes[i] - previousPass;
+
+            if (timeDiff.TotalMinutes <= 60)
+            {
+                currentGroup.Add(passes[i]);
+            }
+            else
+            {
+                groups.Add(currentGroup);
+                currentGroup = new List<DateTime> { passes[i] };
+            }
+
+            previousPass = passes[i];
+        }
+
+        groups.Add(currentGroup);
+
+        return groups;
     }
 
     private static int GetPassFee(DateTime dateTime)
