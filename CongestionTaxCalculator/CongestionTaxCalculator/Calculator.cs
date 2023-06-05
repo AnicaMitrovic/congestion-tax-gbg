@@ -41,7 +41,8 @@ public class Calculator
 
     private static int GetPassFee(DateTime dateTime)
     {
-        if (dateTime.DayOfWeek == DayOfWeek.Saturday)
+        if (dateTime.DayOfWeek == DayOfWeek.Saturday || 
+            dateTime.DayOfWeek == DayOfWeek.Sunday)
         {
             return 0;
         }
