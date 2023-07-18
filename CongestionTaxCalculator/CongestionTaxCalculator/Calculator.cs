@@ -4,13 +4,22 @@ namespace CongestionTaxCalculator;
 
 public class Calculator
 {
+    public static readonly int MAX_DAILY_FEE = 60;
+
     public static void PrintTotalAmount(string tollStationPasses)
     {
         string[] splittedPasses = tollStationPasses.Split(", ");
         DateTime[] parsedTollStationPasses = new DateTime[splittedPasses.Length];
         for (int i = 0; i < parsedTollStationPasses.Length; i++)
         {
-            parsedTollStationPasses[i] = DateTime.Parse(splittedPasses[i]);
+            try
+            {
+                parsedTollStationPasses[i] = DateTime.Parse(splittedPasses[i]);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         int totalFee = 0;
@@ -20,7 +29,9 @@ public class Calculator
             totalFee += GetSinglePassFee(tollStationPass);
         }
 
-        Console.WriteLine($"The total fee is {totalFee} kr");
+        var totalDailyFee = Math.Min(totalFee, MAX_DAILY_FEE);
+
+        Console.WriteLine($"The total fee is {totalDailyFee} kr");
     }
 
     private static int GetSinglePassFee(DateTime parsedTollStationPass)

@@ -6,7 +6,7 @@ namespace CalculatorTests
     public class PrintTotalAmountTests
     {
         public static IEnumerable<object[]> TollStationSinglePasses => new[]
-{
+        {
             new object[] { "2023-07-18 06:00", 8 },
             new object[] { "2023-07-18 06:29", 8 },
             new object[] { "2023-07-18 06:30", 13 },
@@ -86,6 +86,14 @@ namespace CalculatorTests
             Assert.AreEqual($"The total fee is {fee} kr", actual);
         }
 
+        // Add more dynamic data
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void PrintTotalAmount_GivenInvalidDate_ThrowsFormatException()
+        {
+            Calculator.PrintTotalAmount("2023-48-01");
+        }
+
         [TestMethod]
         [DynamicData(nameof(TollStationMultiplePasses))]
         public void PrintTotalAmount_GivenMultiplePasses_PrintsCorrectAmount(string passTimes, int fee)
@@ -97,6 +105,18 @@ namespace CalculatorTests
             var actual = stringWriter.ToString().Trim();
 
             Assert.AreEqual($"The total fee is {fee} kr", actual);
+        }
+
+        [TestMethod]
+        public void PrintTotalAmount_GivenTotalFeeOver60_Prints60()
+        {
+            StringWriter stringWriter = new();
+            Console.SetOut(stringWriter);
+
+            Calculator.PrintTotalAmount("2023-05-31 07:00, 2023-05-31 07:10, 2023-05-31 07:20, 2023-05-31 07:30");
+            var actual = stringWriter.ToString().Trim();
+
+            Assert.AreEqual("The total fee is 60 kr", actual);
         }
     }
 }
