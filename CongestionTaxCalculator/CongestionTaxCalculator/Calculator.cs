@@ -4,6 +4,7 @@ namespace CongestionTaxCalculator;
 
 public class Calculator
 {
+    // test
     public static readonly int MAX_DAILY_FEE = 60;
 
     public static void PrintTotalAmount(string tollStationPasses)
