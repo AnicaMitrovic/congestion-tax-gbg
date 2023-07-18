@@ -6,46 +6,50 @@ public class Calculator
 {
     public static void PrintTotalAmount(string tollStationPasses)
     {
-        var parsedTollStationPass = DateTime.Parse(tollStationPasses);
+        string[] splittedPasses = tollStationPasses.Split(", ");
+        DateTime[] parsedTollStationPasses = new DateTime[splittedPasses.Length];
+        for (int i = 0; i < parsedTollStationPasses.Length; i++)
+        {
+            parsedTollStationPasses[i] = DateTime.Parse(splittedPasses[i]);
+        }
 
-        int totalFee;
+        int totalFee = 0;
 
+        foreach (var tollStationPass in parsedTollStationPasses)
+        {
+            totalFee += GetSinglePassFee(tollStationPass);
+        }
+
+        Console.WriteLine($"The total fee is {totalFee} kr");
+    }
+
+    private static int GetSinglePassFee(DateTime parsedTollStationPass)
+    {
         switch (parsedTollStationPass.Hour)
         {
             case 6:
-                totalFee = parsedTollStationPass.Minute <= 29 ? 8 : 13;
-                break;
+                return parsedTollStationPass.Minute <= 29 ? 8 : 13;
             case 7:
-                totalFee = 18;
-                break;
+                return 18;
             case 8:
-                totalFee = parsedTollStationPass.Minute <= 29 ? 13 : 8;
-                break;
+                return parsedTollStationPass.Minute <= 29 ? 13 : 8;
             case 9:
             case 10:
             case 11:
             case 12:
             case 13:
             case 14:
-                totalFee = 8;
-                break;
+                return 8;
             case 15:
-                totalFee = parsedTollStationPass.Minute <= 29 ? 13 : 18;
-                break;
+                return parsedTollStationPass.Minute <= 29 ? 13 : 18;
             case 16:
-                totalFee = 18;
-                break;
+                return 18;
             case 17:
-                totalFee = 13;
-                break;
+                return 13;
             case 18:
-                totalFee = parsedTollStationPass.Minute <= 29 ? 8 : 0;
-                break;
+                return parsedTollStationPass.Minute <= 29 ? 8 : 0;
             default:
-                totalFee = 0;
-                break;
+                return 0;
         }
-
-        Console.WriteLine($"The total fee is {totalFee} kr");
     }
 }
