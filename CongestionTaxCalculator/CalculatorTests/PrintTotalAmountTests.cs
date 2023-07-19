@@ -98,10 +98,22 @@ namespace CalculatorTests
             StringWriter stringWriter = new();
             Console.SetOut(stringWriter);
 
-            Calculator.PrintTotalAmount("2023-05-31 07:00, 2023-05-31 07:10, 2023-05-31 07:20, 2023-05-31 07:30");
+            Calculator.PrintTotalAmount("2023-05-31 06:00, 2023-05-31 06:30, 2023-05-31 07:20, 2023-05-31 08:00, 2023-05-31 08:15, 2023-05-31 08:20");
             var actual = stringWriter.ToString().Trim();
 
             Assert.AreEqual("The total fee is 60 kr", actual);
+        }
+
+        [TestMethod]
+        public void PrintTotalAmount_GivenTPassesInOneHour_PrintsHighestFee()
+        {
+            StringWriter stringWriter = new();
+            Console.SetOut(stringWriter);
+
+            Calculator.PrintTotalAmount("2023-05-31 06:20, 2023-05-31 06:45, 2023-05-31 07:10");
+            var actual = stringWriter.ToString().Trim();
+
+            Assert.AreEqual("The total fee is 18 kr", actual);
         }
     }
 }

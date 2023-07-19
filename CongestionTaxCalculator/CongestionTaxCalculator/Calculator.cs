@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace CongestionTaxCalculator;
 
@@ -24,18 +26,43 @@ public class Calculator
         }
 
         int totalFee = 0;
+        int highestFee = 0;
 
         foreach (var tollStationPass in parsedTollStationPasses)
         {
             if(tollStationPass.DayOfWeek != DayOfWeek.Saturday && tollStationPass.DayOfWeek != DayOfWeek.Sunday && tollStationPass.Month != MONTH_JULY)
             {
-                totalFee += GetSinglePassFee(tollStationPass);
+                if(parsedTollStationPasses.Count() > 1 && PassInOneHour(parsedTollStationPasses))
+                {
+                    if (GetSinglePassFee(tollStationPass) > highestFee)
+                    {
+                        highestFee = GetSinglePassFee(tollStationPass);
+                        totalFee = highestFee;
+                    }
+                }
+                else
+                {
+                    totalFee += GetSinglePassFee(tollStationPass);
+                }
             }
         }
 
         var totalDailyFee = Math.Min(totalFee, MAX_DAILY_FEE);
 
         Console.WriteLine($"The total fee is {totalDailyFee} kr");
+    }
+
+    private static bool PassInOneHour(DateTime[] parsedTollStationPasses)
+    {
+        int passesCount = parsedTollStationPasses.Length;
+        TimeSpan timeDifference = parsedTollStationPasses[passesCount - 1] - parsedTollStationPasses[0];
+
+        if (timeDifference.TotalMinutes > 60)
+        {
+            return false;
+            
+        }
+        return true;
     }
 
     private static int GetSinglePassFee(DateTime parsedTollStationPass)
