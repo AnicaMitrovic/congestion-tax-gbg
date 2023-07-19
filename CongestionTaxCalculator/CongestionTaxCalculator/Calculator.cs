@@ -26,7 +26,10 @@ public class Calculator
 
         foreach (var tollStationPass in parsedTollStationPasses)
         {
-            totalFee += GetSinglePassFee(tollStationPass);
+            if(tollStationPass.DayOfWeek != DayOfWeek.Saturday && tollStationPass.DayOfWeek != DayOfWeek.Sunday && tollStationPass.Month != 7)
+            {
+                totalFee += GetSinglePassFee(tollStationPass);
+            }
         }
 
         var totalDailyFee = Math.Min(totalFee, MAX_DAILY_FEE);
