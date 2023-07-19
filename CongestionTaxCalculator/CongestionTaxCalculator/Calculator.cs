@@ -32,17 +32,19 @@ public class Calculator
         {
             if(tollStationPass.DayOfWeek != DayOfWeek.Saturday && tollStationPass.DayOfWeek != DayOfWeek.Sunday && tollStationPass.Month != MONTH_JULY)
             {
-                if(parsedTollStationPasses.Count() > 1 && PassInOneHour(parsedTollStationPasses))
+                int singlePassFee = GetSinglePassFee(tollStationPass);
+
+                if (parsedTollStationPasses.Count() > 1 && PassInOneHour(parsedTollStationPasses))
                 {
-                    if (GetSinglePassFee(tollStationPass) > highestFee)
+                    if (singlePassFee > highestFee)
                     {
-                        highestFee = GetSinglePassFee(tollStationPass);
+                        highestFee = singlePassFee;
                         totalFee = highestFee;
                     }
                 }
                 else
                 {
-                    totalFee += GetSinglePassFee(tollStationPass);
+                    totalFee += singlePassFee;
                 }
             }
         }
