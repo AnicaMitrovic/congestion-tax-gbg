@@ -18,23 +18,7 @@ namespace CalculatorTests
             new object[] { "2023-01-18 08:30", 8 },
             new object[] { "2023-01-18 15:29", 13 },
             new object[] { "2023-01-18 15:30", 18 },
-            new object[] { "2023-01-18 16:00", 18 },
-            new object[] { "2023-07-18 17:59", 0 },
-            new object[] { "2023-07-18 18:00", 0 },
-            new object[] { "2023-07-18 18:29", 0 },
-            new object[] { "2023-07-18 18:30", 0 },
-            new object[] { "2023-07-18 19:00", 0 },
-            new object[] { "2023-07-18 20:00", 0 },
-            new object[] { "2023-07-18 21:00", 0 },
-            new object[] { "2023-07-18 22:00", 0 },
-            new object[] { "2023-07-18 23:00", 0 },
-            new object[] { "2023-07-18 00:00", 0 },
-            new object[] { "2023-07-18 01:00", 0 },
-            new object[] { "2023-07-18 02:00", 0 },
-            new object[] { "2023-07-18 03:00", 0 },
-            new object[] { "2023-07-18 04:00", 0 },
-            new object[] { "2023-07-18 05:00", 0 },
-            new object[] { "2023-07-18 05:59", 0 },
+            new object[] { "2023-01-18 16:00", 18 }
         };
 
         public static IEnumerable<object[]> TollStationMultiplePasses => new[]
@@ -75,6 +59,7 @@ namespace CalculatorTests
 
         [TestMethod]
         [DynamicData(nameof(TollStationSinglePasses))]
+        [DynamicData(nameof(TollStationNoChargedPasses))]
         public void PrintTotalAmount_GivenSinglePass_PrintsCorrectAmount(string passTime, int fee)
         {
             StringWriter stringWriter = new();
@@ -117,19 +102,6 @@ namespace CalculatorTests
             var actual = stringWriter.ToString().Trim();
 
             Assert.AreEqual("The total fee is 60 kr", actual);
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(TollStationNoChargedPasses))]
-        public void PrintTotalAmount_GivenSatSundOrJuly_Prints0(string passDateTime, int fee)
-        {
-            StringWriter stringWriter = new();
-            Console.SetOut(stringWriter);
-
-            Calculator.PrintTotalAmount(passDateTime);
-            var actual = stringWriter.ToString().Trim();
-
-            Assert.AreEqual($"The total fee is {fee} kr", actual);
         }
     }
 }
