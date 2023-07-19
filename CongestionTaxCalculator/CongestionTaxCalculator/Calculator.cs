@@ -5,6 +5,7 @@ namespace CongestionTaxCalculator;
 public class Calculator
 {
     public static readonly int MAX_DAILY_FEE = 60;
+    private static readonly int MONTH_JULY = 7;
 
     public static void PrintTotalAmount(string tollStationPasses)
     {
@@ -26,7 +27,7 @@ public class Calculator
 
         foreach (var tollStationPass in parsedTollStationPasses)
         {
-            if(tollStationPass.DayOfWeek != DayOfWeek.Saturday && tollStationPass.DayOfWeek != DayOfWeek.Sunday && tollStationPass.Month != 7)
+            if(tollStationPass.DayOfWeek != DayOfWeek.Saturday && tollStationPass.DayOfWeek != DayOfWeek.Sunday && tollStationPass.Month != MONTH_JULY)
             {
                 totalFee += GetSinglePassFee(tollStationPass);
             }
